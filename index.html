@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Kamu ❤️</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            color: #fff;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 1em;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .message {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 2em;
+            display: none;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 2em;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #fff;
+            color: #ff6b6b;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .yes-btn:hover {
+            background: #4CAF50;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .no-btn {
+            position: relative;
+        }
+
+        .no-btn:hover {
+            animation: shake 0.5s;
+        }
+
+        .heart {
+            font-size: 100px;
+            color: #ff4d4d;
+            animation: pulse 1.5s infinite;
+            display: none;
+            text-shadow: 0 0 20px rgba(255, 77, 77, 0.5);
+        }
+
+        @keyframes shake {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-10px, 0); }
+            50% { transform: translate(10px, 0); }
+            75% { transform: translate(-10px, 0); }
+            100% { transform: translate(0, 0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .flowers {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: none;
+            z-index: 1000;
+        }
+
+        .flower {
+            position: absolute;
+            font-size: 24px;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="flowers" id="flowers"></div>
+    <div class="container">
+        <h1>Assalamualaikum Resty... 😊</h1>
+        <div id="message" class="message">
+            Riki nak cakap sesuatu ni...
+        </div>
+        <div class="heart" id="heart">❤️</div>
+        <div class="buttons" id="buttons">
+            <button class="yes-btn" onclick="showLove()">Mulai</button>
+        </div>
+    </div>
+
+    <script>
+        let stage = 0;
+        const messages = [
+            "Assalamualaikum Resty ...", 
+            "Riki dah lama suka sama Resty",
+            "Setiap kali tengok Resty senyum, hati riki berbunga-bunga",
+            "Riki tak dapat nak lupakan Resty",
+            "Resty orangnya baik, lemah lembut, dan penyayang",
+            "Jadi... dengan izin Allah SWT",
+            "Maukah Resty jadi pacar Riki? 💍"
+        ];
+
+        let noButtonClickCount = 0;
+        const noButtonTexts = [
+            "Tak mau",
+            "Yakin tak nak?",
+            "Fikir balik la",
+            "Please Resty... 🥺",
+            "Riki janji akan jaga Resty",
+            "Resty jangan tolak Riki 😭"
+        ];
+
+        function showLove() {
+            const messageDiv = document.getElementById('message');
+            const buttons = document.getElementById('buttons');
+            const heart = document.getElementById('heart');
+
+            if (stage < messages.length - 1) {
+                messageDiv.style.display = 'block';
+                messageDiv.innerHTML = messages[stage];
+                if (stage === 0) {
+                    buttons.innerHTML = `
+                        <button class="yes-btn" onclick="showLove()">Lanjut</button>
+                    `;
+                }
+                stage++;
+            } else if (stage === messages.length - 1) {
+                messageDiv.innerHTML = messages[stage];
+                buttons.innerHTML = `
+                    <button class="yes-btn" onclick="accepted()">Iya</button>
+                    <button class="no-btn" onclick="moveButton(this)" onmouseover="moveButton(this)">Tidak</button>
+                `;
+                stage++;
+            }
+        }
+
+        function moveButton(button) {
+            if (noButtonClickCount < noButtonTexts.length) {
+                button.textContent = noButtonTexts[noButtonClickCount];
+                noButtonClickCount++;
+            }
+            
+            const container = document.querySelector('.container');
+            const containerRect = container.getBoundingClientRect();
+            const buttonRect = button.getBoundingClientRect();
+            
+            const maxX = containerRect.width - buttonRect.width;
+            const maxY = containerRect.height - buttonRect.height;
+            
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            button.style.position = 'absolute';
+            button.style.left = `${randomX}px`;
+            button.style.top = `${randomY}px`;
+        }
+
+        function accepted() {
+            const messageDiv = document.getElementById('message');
+            const buttons = document.getElementById('buttons');
+            const heart = document.getElementById('heart');
+            const flowers = document.getElementById('flowers');
+
+            messageDiv.innerHTML = "Alhamdulillah! Riki Sayang Resty! ❤️";
+            buttons.style.display = 'none';
+            heart.style.display = 'block';
+            flowers.style.display = 'block';
+            
+            // Membuat efek hujan bunga
+            setInterval(createFlower, 100);
+        }
+
+        function createFlower() {
+            const flowers = document.getElementById('flowers');
+            const flower = document.createElement('div');
+            const flowerTypes = ['🌸', '🌺', '🌹', '🌷', '💐', '🌻'];
+            
+            flower.className = 'flower';
+            flower.textContent = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
+            flower.style.left = Math.random() * 100 + 'vw';
+            flower.style.animationDuration = Math.random() * 3 + 2 + 's';
+            
+            flowers.appendChild(flower);
+            
+            setTimeout(() => {
+                flower.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
+    
+    
+    
