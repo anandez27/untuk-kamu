@@ -117,6 +117,7 @@
         }
     </style>
 </head>
+    <script> src="javascript.js" </script>
 <body>
     <div class="flowers" id="flowers"></div>
     <div class="container">
@@ -130,105 +131,7 @@
         </div>
     </div>
 
-    <script>
-        let stage = 0;
-        const messages = [
-            "Assalamualaikum Resty ...", 
-            "Riki dah lama suka sama Resty",
-            "Setiap kali tengok Resty senyum, hati riki berbunga-bunga",
-            "Riki tak dapat nak lupakan Resty",
-            "Resty orangnya baik, lemah lembut, dan penyayang",
-            "Jadi... dengan izin Allah SWT",
-            "Maukah Resty jadi pacar Riki? 💍"
-        ];
-
-        let noButtonClickCount = 0;
-        const noButtonTexts = [
-            "Tak mau",
-            "Yakin tak nak?",
-            "Fikir balik la",
-            "Please Resty... 🥺",
-            "Riki janji akan jaga Resty",
-            "Resty jangan tolak Riki 😭"
-        ];
-
-        function showLove() {
-            const messageDiv = document.getElementById('message');
-            const buttons = document.getElementById('buttons');
-            const heart = document.getElementById('heart');
-
-            if (stage < messages.length - 1) {
-                messageDiv.style.display = 'block';
-                messageDiv.innerHTML = messages[stage];
-                if (stage === 0) {
-                    buttons.innerHTML = `
-                        <button class="yes-btn" onclick="showLove()">Lanjut</button>
-                    `;
-                }
-                stage++;
-            } else if (stage === messages.length - 1) {
-                messageDiv.innerHTML = messages[stage];
-                buttons.innerHTML = `
-                    <button class="yes-btn" onclick="accepted()">Iya</button>
-                    <button class="no-btn" onclick="moveButton(this)" onmouseover="moveButton(this)">Tidak</button>
-                `;
-                stage++;
-            }
-        }
-
-        function moveButton(button) {
-            if (noButtonClickCount < noButtonTexts.length) {
-                button.textContent = noButtonTexts[noButtonClickCount];
-                noButtonClickCount++;
-            }
-            
-            const container = document.querySelector('.container');
-            const containerRect = container.getBoundingClientRect();
-            const buttonRect = button.getBoundingClientRect();
-            
-            const maxX = containerRect.width - buttonRect.width;
-            const maxY = containerRect.height - buttonRect.height;
-            
-            const randomX = Math.random() * maxX;
-            const randomY = Math.random() * maxY;
-            
-            button.style.position = 'absolute';
-            button.style.left = `${randomX}px`;
-            button.style.top = `${randomY}px`;
-        }
-
-        function accepted() {
-            const messageDiv = document.getElementById('message');
-            const buttons = document.getElementById('buttons');
-            const heart = document.getElementById('heart');
-            const flowers = document.getElementById('flowers');
-
-            messageDiv.innerHTML = "Alhamdulillah! Riki Sayang Resty! ❤️";
-            buttons.style.display = 'none';
-            heart.style.display = 'block';
-            flowers.style.display = 'block';
-            
-            // Membuat efek hujan bunga
-            setInterval(createFlower, 100);
-        }
-
-        function createFlower() {
-            const flowers = document.getElementById('flowers');
-            const flower = document.createElement('div');
-            const flowerTypes = ['🌸', '🌺', '🌹', '🌷', '💐', '🌻'];
-            
-            flower.className = 'flower';
-            flower.textContent = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
-            flower.style.left = Math.random() * 100 + 'vw';
-            flower.style.animationDuration = Math.random() * 3 + 2 + 's';
-            
-            flowers.appendChild(flower);
-            
-            setTimeout(() => {
-                flower.remove();
-            }, 5000);
-        }
-    </script>
+   
 </body>
 </html>
     
